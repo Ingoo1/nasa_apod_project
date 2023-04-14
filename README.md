@@ -10,5 +10,5 @@ Used links:
 4. [JSON.stringify()](https://www.w3schools.com/js/js_json_stringify.asp)
 5. [JSON.parse()](https://www.w3schools.com/js/js_json_parse.asp)
 6. [Object.values()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_objects/Object/values)
-7. []()
-8. []()
+7. [delete operator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete)
+8. [Window: scrollTo() method](https://developer.mozilla.org/en-US/docs/Web/API/Window/scrollTo)
