@@ -12,8 +12,11 @@ const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${co
 let resultsArray = [];
 let favorites = {};
 
-function updateDOM() {
-  resultsArray.forEach((result) => {
+function createDOMNodes(page) {
+  // Load ResultsArray or Favorites
+  const currentArray =
+    page === 'results' ? resultsArray : Object.values(favorites);
+  currentArray.forEach((result) => {
     // Card Container
     const card = document.createElement('div');
     card.classList.add('card');
@@ -38,8 +41,13 @@ function updateDOM() {
     // Save Text
     const saveText = document.createElement('p');
     saveText.classList.add('clickable');
-    saveText.textContent = 'Add To Favorites';
-    saveText.setAttribute('onclick', `saveFavorite('${result.url}')`);
+    if (page === 'results') {
+      saveText.textContent = 'Add To Favorites';
+      saveText.setAttribute('onclick', `saveFavorite('${result.url}')`);
+    } else {
+      saveText.textContent = 'Remove Favorite';
+      saveText.setAttribute('onclick', `removeFavorite('${result.url}')`);
+    }
     // Card Text
     const cardText = document.createElement('p');
     cardText.textContent = result.explanation;
@@ -63,12 +71,22 @@ function updateDOM() {
   });
 }
 
+function updateDOM(page) {
+  // Get Favorites from localStorage
+  if (localStorage.getItem('nasaFavorites')) {
+    favorites = JSON.parse(localStorage.getItem('nasaFavorites'));
+  }
+  // Reset DOM, Create DOM Nodes, Show Content
+  imagesContainer.textContent = '';
+  createDOMNodes(page);
+}
+
 async function getNasaPictures() {
   try {
     const resporse = await fetch(apiUrl);
     resultsArray = await resporse.json();
     console.log(resultsArray);
-    updateDOM();
+    updateDOM('results');
   } catch (error) {
     //Catch Error Here
   }
